@@ -1,0 +1,33 @@
+services:
+  backend:
+    container_name: ws-back
+    restart: always
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "3011:3000"
+    env_file:
+      - ./backend/.env
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    # depends_on:
+    #   - db
+    # environment:
+    #   NODE_ENV: development
+    # command: npm run dev
+
+# frontend:
+#     restart: always
+#     container_name: ws-front
+#     build:
+#       context: ./frontend
+#       dockerfile: Dockerfile
+#     ports:
+#       - "8080:80"
+#     # env_file:
+#     #   - ./frontend/.env
+#     volumes:
+#       - ./frontend/public:/usr/share/nginx/html
+#       # - /app/node_modules
