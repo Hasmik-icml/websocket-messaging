@@ -34,4 +34,6 @@ ws.onmessage = (res) => {
     console.log(res.data);
     viewMessage(res.data);
 }
-
+ws.onerror = (error) => {
+    console.error('WebSocket Error:', error);
+}
