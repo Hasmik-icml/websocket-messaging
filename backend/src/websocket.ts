@@ -1,4 +1,5 @@
 import websocket from 'ws';
+import { MessageRepo } from './prisma';
 
 export function setupWebSocket(server: any) {
     const wss = new websocket.Server({ server });
@@ -10,11 +11,19 @@ export function setupWebSocket(server: any) {
 
         ws.send("hello from server");
 
+        const messages = await MessageRepo.repo.findMany();
+
+        messages.forEach((message) => {
+            ws.send(message.content);
+        })
 
         ws.on('message', async (message) => {
             console.log(`Received message: ${message}`);
             const msg = message.toString();
 
+            await MessageRepo.repo.create({
+                data: { content: msg },
+            });
 
             wss.clients.forEach((client) => {
                 if (client.readyState === ws.OPEN) {
