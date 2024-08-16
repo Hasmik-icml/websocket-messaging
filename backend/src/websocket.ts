@@ -11,12 +11,12 @@ export function setupWebSocket(server: any) {
 
         ws.send("hello from server");
 
-        // Commented for testing
-        // const messages = await MessageRepo.repo.findMany();
+        // Comment to avoid double Receiv message
+        const messages = await MessageRepo.repo.findMany();
 
-        // messages.forEach((message) => {
-        //     ws.send(message.content);
-        // })
+        messages.forEach((message) => {
+            ws.send(message.content);
+        })
 
         ws.on('message', async (message) => {
             console.log(`Received message: ${message}`);
